@@ -14,5 +14,10 @@ UCLASS()
 class PROJECTMUTATIO_API UPMGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
+
+public:
+
+	// Called to initialize the game instance for standalone instances of the game
+	virtual void Init() override;
 	
 };
