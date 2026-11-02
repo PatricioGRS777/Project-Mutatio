@@ -14,5 +14,10 @@ UCLASS()
 class PROJECTMUTATIO_API APMPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+
+public:
+	
+	// Constructor of the PlayerController, wich is initialized when the game starts
+	APMPlayerController();
 	
 };
