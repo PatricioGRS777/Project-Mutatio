@@ -4,7 +4,7 @@
 
 A video game where you make a shift.
 
-Development Status: Pre-Production
+Development Status: Production
 
 ---
 
