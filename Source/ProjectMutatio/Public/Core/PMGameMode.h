@@ -13,5 +13,10 @@ UCLASS()
 class PROJECTMUTATIO_API APMGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+
+	// Constructor for the GameMode class, wich is called when the game starts
+	APMGameMode();
 	
 };
