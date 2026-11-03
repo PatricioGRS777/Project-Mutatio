@@ -14,5 +14,10 @@ UCLASS()
 class PROJECTMUTATIO_API APMPlayerCharacter : public APMBaseCharacter
 {
 	GENERATED_BODY()
+
+public:
+
+	// Constructor for the PlayerCharacter, wich is called when the character is spawned in the game
+	APMPlayerCharacter();
 	
 };
