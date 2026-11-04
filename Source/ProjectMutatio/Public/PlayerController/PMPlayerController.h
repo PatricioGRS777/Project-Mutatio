@@ -19,5 +19,25 @@ public:
 	
 	// Constructor of the PlayerController, wich is initialized when the game starts
 	APMPlayerController();
+
+	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;
+
+	virtual void SetupInputComponent() override;
+
+	void InitializeVariables();
+
+	// Movement functions for the player character
+	void MoveForward(float Value);
+	void MoveBackward(float Value);
+	void MoveRight(float Value);
+	void MoveLeft(float Value);
+
+public:
+
+	// The player character controlled by this PlayerController
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Character")
+	class APMPlayerCharacter* PlayerCharacter;
 	
 };
