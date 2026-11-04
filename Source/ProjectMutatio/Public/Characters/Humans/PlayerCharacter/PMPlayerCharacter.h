@@ -9,6 +9,7 @@
 /**
  * 
  */
+
 UCLASS()
 class PROJECTMUTATIO_API APMPlayerCharacter : public APMHumanCharacter
 {
@@ -18,6 +19,16 @@ public:
 
 	// Constructor of the player character class
 	APMPlayerCharacter();
+
+	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;
+
+	// Movement functions for the player character
+	void MoveForward(float Value);
+	void MoveBackward(float Value);
+	void MoveRight(float Value);
+	void MoveLeft(float Value);
 
 public:
 
