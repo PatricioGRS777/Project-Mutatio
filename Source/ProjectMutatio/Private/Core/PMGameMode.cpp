@@ -8,7 +8,7 @@ APMGameMode::APMGameMode()
 {
     UE_LOG(LogTemp, Warning, TEXT("APMGameMode::APMGameMode() GameMode initialized successfully."));
 
-    static ConstructorHelpers::FClassFinder<APawn> PlayerCharacterBPClass(TEXT("/Game/Characters/Humans/Player_Character/BP_PlayerCharacter"));
+    static ConstructorHelpers::FClassFinder<APawn> PlayerCharacterBPClass(TEXT("/Game/Characters/Humans/Prototype_Character/BP_PlayerCharacter"));
 
     if (!PlayerCharacterBPClass.Succeeded())
     {

@@ -2,6 +2,7 @@
 
 
 #include "PMPlayerCharacter.h"
+#include "Animation/AnimInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -24,6 +25,18 @@ APMPlayerCharacter::APMPlayerCharacter()
     GetCharacterMovement()->MaxAcceleration = 1200.0f;
     GetCharacterMovement()->BrakingDecelerationWalking = 1400.0f;
     GetCharacterMovement()->GroundFriction = 8.0f;
+
+    // This establishes the Animation Blueprint for this character
+    static ConstructorHelpers::FClassFinder<UAnimInstance> 
+        AnimBPClass(TEXT("/Game/Animations/Animation_Blueprints/Characters/Humans/Prototype_Character/ABP_PrototypeCharacter"));
+
+    if (!AnimBPClass.Succeeded())
+    {
+        UE_LOG(LogTemp, Warning, TEXT("APMPlayerCharacter::APMPlayerCharacter() Animation Blueprint is null."));
+        return;
+    }
+
+    GetMesh()->SetAnimInstanceClass(AnimBPClass.Class);
 
 }
 
