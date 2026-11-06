@@ -33,11 +33,7 @@ void APMPlayerController::SetupInputComponent()
     }
 
     InputComponent->BindAxis("MoveForward", this, &APMPlayerController::MoveForward);
-    InputComponent->BindAxis("MoveBackward", this, &APMPlayerController::MoveBackward);
     InputComponent->BindAxis("MoveRight", this, &APMPlayerController::MoveRight);
-    InputComponent->BindAxis("MoveLeft", this, &APMPlayerController::MoveLeft);
-
-
 }
 
 void APMPlayerController::InitializeVariables()
@@ -63,42 +59,32 @@ void APMPlayerController::MoveForward(float Value)
 {
     if (!PlayerCharacter)
     {
-        UE_LOG(LogTemp, Error, TEXT("APMPlayerController::MoveForward() ControlledPawn is null."));
+        UE_LOG(LogTemp, Error, TEXT("APMPlayerController::MoveForward() PlayerCharacter is null."));
         return;
     }
 
-    PlayerCharacter->MoveForward(Value);
-}
+    const FRotator Rotation = GetControlRotation();
 
-void APMPlayerController::MoveBackward(float Value)
-{
-    if (!PlayerCharacter)
-    {
-        UE_LOG(LogTemp, Error, TEXT("APMPlayerController::MoveBackward() ControlledPawn is null."));
-        return;
-    }
+    const FRotator YawRotation(FRotator(0.0f, Rotation.Yaw, 0.0f));
 
-    PlayerCharacter->MoveBackward(Value);
+    const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+
+    PlayerCharacter->MoveForward(ForwardDirection, Value);
 }
 
 void APMPlayerController::MoveRight(float Value)
 {
     if (!PlayerCharacter)
     {
-        UE_LOG(LogTemp, Error, TEXT("APMPlayerController::MoveRight() ControlledPawn is null."));
+        UE_LOG(LogTemp, Warning, TEXT("APMPlayerController::MoveLeft() PlayerCharacter is null."))
         return;
     }
 
-    PlayerCharacter->MoveRight(Value);
-}
+    const FRotator Rotation = GetControlRotation();
 
-void APMPlayerController::MoveLeft(float Value)
-{
-    if (!PlayerCharacter)
-    {
-        UE_LOG(LogTemp, Error, TEXT("APMPlayerController::MoveLeft() ControlledPawn is null."));
-        return;
-    }
+    const FRotator YawRotation(FRotator(0.0f, Rotation.Yaw, 0.0f));
 
-    PlayerCharacter->MoveLeft(Value);
+    const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
+    PlayerCharacter->MoveRight(RightDirection, Value);
 }

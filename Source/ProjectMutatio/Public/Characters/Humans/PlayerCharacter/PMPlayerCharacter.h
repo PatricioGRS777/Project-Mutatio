@@ -25,10 +25,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Movement functions for the player character
-	void MoveForward(float Value);
-	void MoveBackward(float Value);
-	void MoveRight(float Value);
-	void MoveLeft(float Value);
+	void MoveForward(FVector Direction, float Value);
+	void MoveRight(FVector Direction, float Value);
 
 public:
 

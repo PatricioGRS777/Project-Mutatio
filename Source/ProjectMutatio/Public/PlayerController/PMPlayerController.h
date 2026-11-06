@@ -30,9 +30,8 @@ public:
 
 	// Movement functions for the player character
 	void MoveForward(float Value);
-	void MoveBackward(float Value);
 	void MoveRight(float Value);
-	void MoveLeft(float Value);
+
 
 public:
 
