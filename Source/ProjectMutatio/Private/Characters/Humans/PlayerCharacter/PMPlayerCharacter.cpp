@@ -27,7 +27,7 @@ APMPlayerCharacter::APMPlayerCharacter()
     GetCharacterMovement()->GroundFriction = 8.0f;
 
     // This set the desire distance of the camera from the player character
-    SpringArmComp->TargetArmLength = 1200.0f;
+    SpringArmComp->TargetArmLength = 800.0f;
     SpringArmComp->SetRelativeRotation(FRotator(-35.0f, -45.0f, 0.0f));
     SpringArmComp->bUsePawnControlRotation = false;
     SpringArmComp->bInheritYaw = false;
