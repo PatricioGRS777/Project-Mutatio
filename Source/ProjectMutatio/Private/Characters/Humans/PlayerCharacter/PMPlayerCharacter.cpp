@@ -26,6 +26,11 @@ APMPlayerCharacter::APMPlayerCharacter()
     GetCharacterMovement()->BrakingDecelerationWalking = 1400.0f;
     GetCharacterMovement()->GroundFriction = 8.0f;
 
+    SpringArmComp->bUsePawnControlRotation = false;
+    SpringArmComp->bInheritYaw = false;
+    SpringArmComp->bInheritPitch = false;
+    SpringArmComp->bInheritRoll = false;
+
     // This establishes the Animation Blueprint for this character
     static ConstructorHelpers::FClassFinder<UAnimInstance> 
         AnimBPClass(TEXT("/Game/Animations/Animation_Blueprints/Characters/Humans/Prototype_Character/ABP_PrototypeCharacter"));
