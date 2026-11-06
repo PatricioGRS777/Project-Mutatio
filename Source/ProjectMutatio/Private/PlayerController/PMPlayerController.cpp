@@ -3,6 +3,8 @@
 
 #include "PMPlayerController.h"
 #include "Characters/Humans/PlayerCharacter/PMPlayerCharacter.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "GameFramework/SpringArmComponent.h"
 
 APMPlayerController::APMPlayerController()
 {
@@ -63,9 +65,10 @@ void APMPlayerController::MoveForward(float Value)
         return;
     }
 
-    const FRotator Rotation = GetControlRotation();
+    FRotator SpringArmRot = PlayerCharacter->SpringArmComp->GetComponentRotation();
+    FRotator CharacterRot = PlayerCharacter->GetActorRotation();
 
-    const FRotator YawRotation(FRotator(0.0f, Rotation.Yaw, 0.0f));
+    const FRotator YawRotation(0.0f, UKismetMathLibrary::NormalizedDeltaRotator(SpringArmRot, CharacterRot).Yaw, 0.0f);
 
     const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 
@@ -80,11 +83,12 @@ void APMPlayerController::MoveRight(float Value)
         return;
     }
 
-    const FRotator Rotation = GetControlRotation();
+    FRotator SpringArmRot = PlayerCharacter->SpringArmComp->GetComponentRotation();
+    FRotator CharacterRot = PlayerCharacter->GetActorRotation();
 
-    const FRotator YawRotation(FRotator(0.0f, Rotation.Yaw, 0.0f));
+    const FRotator YawRotation(0.0f, UKismetMathLibrary::NormalizedDeltaRotator(SpringArmRot, CharacterRot).Yaw, 0.0f);
 
     const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
-    PlayerCharacter->MoveRight(RightDirection, Value);
+    PlayerCharacter->MoveForward(RightDirection, Value);
 }
