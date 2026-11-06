@@ -51,8 +51,25 @@ void UPMBaseAnimInstance::UpdateAnimationProperties()
         return;
     }
 
+    FVector Velocity = OwnerCharacter->GetVelocity();
+
+    // Get character speed
+    CharacterSpeed = Velocity.Size();
+
+    // Transform the speed in the world to the character's local coordinates
+    FVector LocalVelocity = OwnerCharacter->GetActorTransform().InverseTransformVectorNoScale(Velocity);
+
+    // Take the direction angle
+    float DirectionAngle = FMath::RadiansToDegrees(
+        FMath::Atan2(LocalVelocity.Y, LocalVelocity.X));
+
+    // Create a boundary between 0° and 180°
+    CharacterDirection = FMath::Clamp(90.0f + DirectionAngle, 0.0f, 180.0f);
+
     bIsMoving = IsMoving();
     bIsFalling = IsFalling();
+
+    UE_LOG(LogTemp, Warning, TEXT("UPMBaseAnimInstance::UpdateAnimationProperties() CharacterDirection: %f | Speed: %f"), CharacterDirection, CharacterSpeed);
 }
 
 bool UPMBaseAnimInstance::IsMoving()
@@ -62,10 +79,6 @@ bool UPMBaseAnimInstance::IsMoving()
         UE_LOG(LogTemp, Error, TEXT("UPMBaseAnimInstance::IsMoving() OwnerCharacter is null."));
         return false;
     }
-
-    FVector Velocity = OwnerCharacter->GetVelocity();
-
-    CharacterSpeed = Velocity.Size2D();
 
     return CharacterSpeed > 0.0f;
 }
