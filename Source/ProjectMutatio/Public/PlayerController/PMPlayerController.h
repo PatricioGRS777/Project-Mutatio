@@ -32,11 +32,30 @@ public:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 
+	// Aim and vacuum functions for the player character
+	void Aim();
+	void StopAim();
+	void VacuumOn();
+	void VacuumOff();
+
+
+
+    void UpdateAimRotation(float DeltaTime);
+
 
 public:
 
 	// The player character controlled by this PlayerController
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Character")
 	class APMPlayerCharacter* PlayerCharacter;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Character")
+    class UCharacterMovementComponent* CharacterMovementComp;
 	
+	// The player character controlled by this PlayerController
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Character")
+	class UPMSoulVacuumComponent* SoulVacuumComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character States")
+	bool bIsAiming = false;
 };
