@@ -3,12 +3,15 @@
 
 #include "PMBaseCharacter.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/PMHealthComponent.h"
 
 // Sets default values
 APMBaseCharacter::APMBaseCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	HealthComponent = CreateDefaultSubobject<UPMHealthComponent>(TEXT("Health Component"));
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> DefaultMesh(TEXT("/Game/Meshes/Skeletal_Meshes/Characters/Humans/Prototype_Character/SKM_Mannequin.SKM_Mannequin"));
 
