@@ -51,6 +51,12 @@ void UPMBaseAnimInstance::UpdateAnimationProperties()
         return;
     }
 
+    if (!OwnerCharacter)
+    {
+        UE_LOG(LogTemp, Error, TEXT("UPMBaseAnimInstance::UpdateAnimationProperties() OwnerCharacter is null."))
+        return;
+    }
+
     FVector Velocity = OwnerCharacter->GetVelocity();
 
     // Get character speed
@@ -88,6 +94,12 @@ bool UPMBaseAnimInstance::IsFalling()
     if (!OwnerCharacter)
     {
         UE_LOG(LogTemp, Error, TEXT("UPMBaseAnimInstance::IsFalling() OwnerCharacter is null."));
+        return false;
+    }
+
+    if (!OwnerCharacter->GetCharacterMovement())
+    {
+        UE_LOG(LogTemp, Error, TEXT("UPMBaseAnimInstance::IsFalling() CharacterMovementComponent is null."));
         return false;
     }
 
