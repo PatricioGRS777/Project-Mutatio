@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "PMBaseCharacter.generated.h"
 
+class UPMHealthComponent;
+
 /**
  * The BaseCharacter class serves as the foundation for all character types in the game. 
  * It provides essential functionality and properties that are common to all characters, 
@@ -22,6 +24,9 @@ public:
 	APMBaseCharacter();
 
 protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UPMHealthComponent* HealthComponent;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
