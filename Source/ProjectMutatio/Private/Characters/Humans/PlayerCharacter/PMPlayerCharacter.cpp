@@ -2,6 +2,7 @@
 
 
 #include "PMPlayerCharacter.h"
+#include "Components/PMSoulVacuumComponent.h"
 #include "Animation/AnimInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -10,6 +11,7 @@
 APMPlayerCharacter::APMPlayerCharacter()
 {
     // Create the default subobject for the components
+    SoulVacuumComp = CreateDefaultSubobject<UPMSoulVacuumComponent>(TEXT("Soul Vacuum Component"));
     SpringArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm Component"));
     CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera Component"));
 

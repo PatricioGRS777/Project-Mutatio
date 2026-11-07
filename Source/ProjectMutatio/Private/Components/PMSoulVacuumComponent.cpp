@@ -11,6 +11,7 @@ UPMSoulVacuumComponent::UPMSoulVacuumComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+	UE_LOG(LogTemp, Warning, TEXT("UPMSoulVacuumComponent::UPMSoulVacuumComponent() Actor component initialized successfully."));
 }
 
 
