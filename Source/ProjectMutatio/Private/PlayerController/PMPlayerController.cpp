@@ -90,5 +90,5 @@ void APMPlayerController::MoveRight(float Value)
 
     const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
-    PlayerCharacter->MoveForward(RightDirection, Value);
+    PlayerCharacter->MoveRight(RightDirection, Value);
 }
