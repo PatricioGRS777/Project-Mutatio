@@ -58,4 +58,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character States")
 	bool bIsAiming = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character States")
+	bool bVacuuming = false;
 };

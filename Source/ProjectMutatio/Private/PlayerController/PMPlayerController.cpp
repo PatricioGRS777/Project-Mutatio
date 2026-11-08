@@ -192,9 +192,27 @@ void APMPlayerController::StopAim()
 void APMPlayerController::VacuumOn()
 {
     UE_LOG(LogTemp, Warning, TEXT("APMPlayerController::VacuumOn() Vacuum: On."));
+
+    if (!PlayerCharacter)
+    {
+        UE_LOG(LogTemp, Error, TEXT("APMPlayerController::UpdateAimRotation() PlayerCharacter is null."));
+        return;
+    }
+
+    if (!SoulVacuumComp)
+    {
+        UE_LOG(LogTemp, Error, TEXT("APMPlayerController::UpdateAimRotation() SoulVacuumComp is null."));
+        return;
+    }
+
+    bVacuuming = true;
+
+
 }
 
 void APMPlayerController::VacuumOff()
 {
     UE_LOG(LogTemp, Warning, TEXT("APMPlayerController::VacuumOff() Vacuum: Off."));
+    
+    bVacuuming = false;
 }

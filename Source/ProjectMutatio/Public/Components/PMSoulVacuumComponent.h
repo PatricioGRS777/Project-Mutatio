@@ -28,6 +28,9 @@ public:
 
 	void UpdateAimRotation(float DeltaTime);
 
+	void VacuumOn();
+	void VacuumOff();
+
 public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Character")
@@ -38,6 +41,12 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Character")
 	float AimRotationSpeed = 279.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Character")
+	float VacuumRange = 500.0f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Character")
+	class USkeletalMeshSocket* BoneSocket;
 
 		
 };
