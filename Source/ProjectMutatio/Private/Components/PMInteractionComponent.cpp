@@ -7,6 +7,24 @@ UPMInteractionComponent::UPMInteractionComponent(){
 }
 
 void UPMInteractionComponent::Interact(){
-    //Debug
+    // DEBUG
     UE_LOG(LogTemp, Log, TEXT("Interaction called!"));
+
+    // find the target
+    AActor* Owner = GetOwner();
+    if (!Owner) {
+        return;
+    }
+
+    FVector Start = Owner->GetActorLocation();
+    FVector End = Start + Owner->GetActorForwardVector() * 250.0f;
+
+    FCollisionQueryParams QueryParams;
+    QueryParams.AddIgnoredActor(Owner);
+
+    FHitResult Hit;
+    bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, QueryParams);
+    if (bHit) {
+        UE_LOG(LogTemp, Log, TEXT("Interaction hit: %s"), *GetNameSafe(Hit.GetActor()));
+    }
 }
