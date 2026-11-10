@@ -1,6 +1,4 @@
 #include "Components/PMInteractionComponent.h"
-#include "LogMacros.h"
-#include "LogVerbosity.h"
 #include "PMInteractionInterface.h"
 
 UPMInteractionComponent::UPMInteractionComponent(){
@@ -8,9 +6,6 @@ UPMInteractionComponent::UPMInteractionComponent(){
 }
 
 void UPMInteractionComponent::Interact(){
-    // DEBUG
-    UE_LOG(LogTemp, Log, TEXT("Interaction called!"));
-
     // find the target
     AActor* Owner = GetOwner();
     if (!Owner) {
@@ -25,15 +20,12 @@ void UPMInteractionComponent::Interact(){
 
     FHitResult Hit;
     bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, QueryParams);
-    if (bHit) {
-        UE_LOG(LogTemp, Log, TEXT("Interaction hit: %s"), *GetNameSafe(Hit.GetActor()));
+    if (!bHit) {
+        return;
     }
-    
-    IPMInteractionInterface* Target = Cast<IPMInteractionInterface>(Hit.GetActor());     //cast to make sure it's fine
+
+    IPMInteractionInterface* Target = Cast<IPMInteractionInterface>(Hit.GetActor());
     if (Target) {
         Target->Interact();
-    }
-    else {
-        UE_LOG(LogTemp, Log, TEXT("Interact Interface not implement!"), *GetNameSafe(Hit.GetActor()));
     }
 }

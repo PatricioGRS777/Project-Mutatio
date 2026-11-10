@@ -6,7 +6,6 @@ APMDoorActor::APMDoorActor(){
 
 void APMDoorActor::Interact()
 {
-    UE_LOG(LogTemp, Log, TEXT("Door interaction received: %s"), *GetName());
     bShouldOpen ^= 1;       // a trick that occurred to me to flip a boolean
 }
 
