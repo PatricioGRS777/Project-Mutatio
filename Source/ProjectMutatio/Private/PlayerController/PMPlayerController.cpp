@@ -51,6 +51,9 @@ void APMPlayerController::SetupInputComponent()
     InputComponent->BindAction("StopAim", IE_Released, this, &APMPlayerController::StopAim);
     InputComponent->BindAction("VacuumOn", IE_Pressed, this, &APMPlayerController::VacuumOn);
     InputComponent->BindAction("VacuumOff", IE_Released, this, &APMPlayerController::VacuumOff);
+
+    //Interact
+    InputComponent->BindAction("Interact", IE_Pressed, this, &APMPlayerController::Interact);
 }
 
 void APMPlayerController::InitializeVariables()
@@ -215,4 +218,12 @@ void APMPlayerController::VacuumOff()
     UE_LOG(LogTemp, Warning, TEXT("APMPlayerController::VacuumOff() Vacuum: Off."));
     
     bVacuuming = false;
+}
+
+void APMPlayerController::Interact(){
+    if(!PlayerCharacter){
+        UE_LOG(LogTemp, Error, TEXT("APMPlayerController::Interact() PlayerCharacter is null."));
+        return;
+    }
+    PlayerCharacter->Interact();
 }
