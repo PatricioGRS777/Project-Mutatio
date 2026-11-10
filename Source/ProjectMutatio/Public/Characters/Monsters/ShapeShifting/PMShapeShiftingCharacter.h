@@ -13,5 +13,13 @@ UCLASS()
 class PROJECTMUTATIO_API APMShapeShiftingCharacter : public APMMonsterCharacter
 {
 	GENERATED_BODY()
+
+public:
+
+	APMShapeShiftingCharacter();
+
+	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;
 	
 };
