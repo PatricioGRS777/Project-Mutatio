@@ -13,5 +13,12 @@ UCLASS()
 class PROJECTMUTATIO_API APMGuardCharacter : public APMHumanCharacter
 {
 	GENERATED_BODY()
+
+public:
+
+	APMGuardCharacter();
 	
+	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;	
 };
