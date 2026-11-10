@@ -43,6 +43,10 @@ public:
     void UpdateAimRotation(float DeltaTime);
 
 
+	// Interaction
+	void Interact();
+
+
 public:
 
 	// The player character controlled by this PlayerController

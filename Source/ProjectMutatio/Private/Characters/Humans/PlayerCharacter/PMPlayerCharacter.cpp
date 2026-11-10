@@ -7,6 +7,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/PMInteractionComponent.h"
 
 APMPlayerCharacter::APMPlayerCharacter()
 {
@@ -14,6 +15,7 @@ APMPlayerCharacter::APMPlayerCharacter()
     SoulVacuumComp = CreateDefaultSubobject<UPMSoulVacuumComponent>(TEXT("Soul Vacuum Component"));
     SpringArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm Component"));
     CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera Component"));
+    InteractionComp = CreateDefaultSubobject<UPMInteractionComponent>(TEXT("Interaction Component"));
 
     SpringArmComp->SetupAttachment(GetRootComponent());
     CameraComp->SetupAttachment(SpringArmComp);
@@ -70,4 +72,8 @@ void APMPlayerCharacter::MoveForward(FVector Direction, float Value)
 void APMPlayerCharacter::MoveRight(FVector Direction, float Value)
 {
     AddMovementInput(Direction, Value);
+}
+
+void APMPlayerCharacter::Interact(){
+    this->InteractionComp->Interact();
 }
