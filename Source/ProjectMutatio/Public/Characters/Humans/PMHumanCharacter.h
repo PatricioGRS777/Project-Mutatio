@@ -13,5 +13,10 @@ UCLASS()
 class PROJECTMUTATIO_API APMHumanCharacter : public APMBaseCharacter
 {
 	GENERATED_BODY()
+
+public:
+
+	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "AI|Patrol")
+	TArray<AActor*> PatrolPoints;
 	
 };

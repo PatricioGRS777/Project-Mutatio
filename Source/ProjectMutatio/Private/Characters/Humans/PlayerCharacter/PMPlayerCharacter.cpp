@@ -3,6 +3,7 @@
 
 #include "PMPlayerCharacter.h"
 #include "Components/PMSoulVacuumComponent.h"
+#include "Perception/AISenseConfig_Hearing.h"
 #include "Animation/AnimInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -64,14 +65,32 @@ void APMPlayerCharacter::Tick(float DeltaTime)
 
 }
 
+void APMPlayerCharacter::EmitAINoise(
+    float Loudness,
+    float MaxRange,
+    FName NoiseTag)
+{
+    UAISense_Hearing::ReportNoiseEvent(
+        GetWorld(),
+        GetActorLocation(),
+        Loudness,
+        this,
+        MaxRange,
+        NoiseTag);
+}
+
 void APMPlayerCharacter::MoveForward(FVector Direction, float Value)
 {
     AddMovementInput(Direction, Value);
+
+    EmitAINoise(1.0f, 800.0f, FName("Footsteps"));
 }
 
 void APMPlayerCharacter::MoveRight(FVector Direction, float Value)
 {
     AddMovementInput(Direction, Value);
+
+    EmitAINoise(1.0f, 800.0f, FName("Footsteps"));
 }
 
 void APMPlayerCharacter::Interact(){

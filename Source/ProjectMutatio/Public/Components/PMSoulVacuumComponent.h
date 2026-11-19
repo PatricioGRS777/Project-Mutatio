@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Controllers/PMAIState.h"
 #include "PMSoulVacuumComponent.generated.h"
 
 
@@ -35,6 +36,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Character")
 	class APMPlayerCharacter* PlayerCharacter;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
+	class APMShapeShiftingCharacter* ShiftingCharacter;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Character")
 	class APMPlayerController* PlayerController;

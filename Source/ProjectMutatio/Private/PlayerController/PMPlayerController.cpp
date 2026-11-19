@@ -209,8 +209,6 @@ void APMPlayerController::VacuumOn()
     }
 
     bVacuuming = true;
-
-
 }
 
 void APMPlayerController::VacuumOff()
