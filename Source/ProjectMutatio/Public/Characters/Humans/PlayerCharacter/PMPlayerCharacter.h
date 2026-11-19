@@ -24,12 +24,19 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION()
+	void EmitAINoise(
+		float Loudness,
+		float MaxRange,
+		FName NoiseTag);
+
 	// Movement functions for the player character
 	void MoveForward(FVector Direction, float Value);
 	void MoveRight(FVector Direction, float Value);
 	
 	// Interaction functions
 	void Interact();
+
 public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")

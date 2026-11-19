@@ -3,7 +3,9 @@
 
 #include "PMSoulVacuumComponent.h"
 #include "Characters/Humans/PlayerCharacter/PMPlayerCharacter.h"
+#include "Characters/Monsters/ShapeShifting/PMShapeShiftingCharacter.h"
 #include "PlayerController/PMPlayerController.h"
+#include "Controllers/Monsters/ShapeShifting/PMShapeShiftingAIController.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "DrawDebugHelpers.h"
 
@@ -134,6 +136,8 @@ void UPMSoulVacuumComponent::VacuumOn()
 		return;
 	}
 
+	PlayerCharacter->EmitAINoise(1.0f, 800.0f, FName("Vacuum"));
+
 	const FVector StartLocation = PlayerCharacter->GetMesh()->GetSocketLocation(TEXT("spine_03"));
 
 	const FVector EndLocation = StartLocation + (PlayerCharacter->GetActorForwardVector() * VacuumRange);
@@ -168,6 +172,39 @@ void UPMSoulVacuumComponent::VacuumOn()
 		FColor::Green,
 		false,
 		2.0f);
+
+	if (!HitResult.Actor.IsValid())
+	{
+		UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::VacuumOn() Hit actor is null."));
+		return;
+	}
+
+	ShiftingCharacter = Cast<APMShapeShiftingCharacter>(HitResult.Actor);
+
+	if (!ShiftingCharacter)
+	{
+		UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::VacuumOn() ShiftingCharacter is not a HitResult.Actor type."));
+		return;
+	}
+
+	AController* ShiftingController = ShiftingCharacter->GetController();
+
+	if(!ShiftingController)
+	{
+		UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::VacuumOn() ShiftingController is null."));
+		return;
+	}
+
+	APMShapeShiftingAIController* ShiftingAIController = Cast<APMShapeShiftingAIController>(ShiftingController);
+
+	if (!ShiftingAIController)
+	{
+		UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::VacuumOn() ShiftingController is null."));		
+		return;
+	}
+
+	ShiftingAIController->AIState = EAIState::EAI_Chase;
+
 }
 
 void UPMSoulVacuumComponent::VacuumOff()

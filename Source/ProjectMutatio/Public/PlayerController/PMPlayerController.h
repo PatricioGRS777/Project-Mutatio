@@ -38,10 +38,7 @@ public:
 	void VacuumOn();
 	void VacuumOff();
 
-
-
     void UpdateAimRotation(float DeltaTime);
-
 
 	// Interaction
 	void Interact();
