@@ -24,11 +24,7 @@ void APMPlayerController::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-
-    if (bIsAiming)
-    {
-        UpdateAimRotation(DeltaTime);
-    }
+    UE_LOG(LogTemp, Warning, TEXT("APMPlayerController::Tick() CaptureProgress: %s"), bApplyPulse? TEXT("TRUE") : TEXT("FALSE"));
 
 }
 
@@ -54,6 +50,11 @@ void APMPlayerController::SetupInputComponent()
 
     //Interact
     InputComponent->BindAction("Interact", IE_Pressed, this, &APMPlayerController::Interact);
+
+    // Suction pulse
+    InputComponent->BindAction("SuctionPulse", IE_Repeat, this, &APMPlayerController::PulsePressed);
+    InputComponent->BindAction("SuctionPulse", IE_Released, this, &APMPlayerController::PulseReleased);
+
 }
 
 void APMPlayerController::InitializeVariables()
@@ -224,4 +225,29 @@ void APMPlayerController::Interact(){
         return;
     }
     PlayerCharacter->Interact();
+}
+
+void APMPlayerController::PulsePressed()
+{
+    if (!PlayerCharacter)
+    {
+        UE_LOG(LogTemp, Error, TEXT("APMPlayerController::SuctionPulse() PlayerCharacter is null."));
+        return;
+    }
+
+    if (!SoulVacuumComp)
+    {
+        UE_LOG(LogTemp, Error, TEXT("APMPlayerController::SuctionPulse() SoulVacuumComp is null."));
+        return;
+    }
+
+    bApplyPulse = true;
+
+    SoulVacuumComp->ApplyPulse();
+
+}
+
+void APMPlayerController::PulseReleased()
+{
+    bApplyPulse = false;
 }
