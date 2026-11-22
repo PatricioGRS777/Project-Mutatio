@@ -8,6 +8,7 @@
 #include "Controllers/Monsters/ShapeShifting/PMShapeShiftingAIController.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "DrawDebugHelpers.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values for this component's properties
 UPMSoulVacuumComponent::UPMSoulVacuumComponent()
@@ -28,7 +29,7 @@ void UPMSoulVacuumComponent::BeginPlay()
 
 	// ...
 	InitializeVariables();
-	
+
 }
 
 
@@ -39,15 +40,8 @@ void UPMSoulVacuumComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 	// ...
 
-	if (PlayerController && PlayerController->bIsAiming)
-	{
-		UpdateAimRotation(DeltaTime);
+	UpdateSoulVacuum(DeltaTime);
 
-		if (PlayerController->bIsAiming && PlayerController->bVacuuming)
-		{
-			VacuumOn();
-		}
-	}
 }
 
 void UPMSoulVacuumComponent::InitializeVariables()
@@ -74,6 +68,105 @@ void UPMSoulVacuumComponent::InitializeVariables()
 	{
 		UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::InitializeVariables() PlayerController is null."));
 		return;
+	}
+}
+
+void UPMSoulVacuumComponent::UpdateSoulVacuum(float DeltaTime)
+{
+	if (!PlayerController)
+	{
+		UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::TickComponent() PlayerController is null."));
+		return;
+	}
+
+	if (!PlayerCharacter)
+	{
+		UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::TickComponent() PlayerCharacter is null."));
+		return;
+	}
+
+	if (PlayerController->bIsAiming)
+	{
+		UpdateAimRotation(DeltaTime);
+	}
+
+	if (PlayerController->bVacuuming)
+	{
+		UpdateVacuumTarget(DeltaTime);
+	}
+	else
+	{
+		CaptureProgress = 0.0f;
+	}
+
+	if (!ShiftingCharacter)
+	{
+		UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::UpdateSoulVacuum() ShiftingCharacter is null."));
+		return;
+	}
+
+	if (!bHasOriginalTransform)
+	{
+		return;
+	}
+
+	if (PlayerController->bVacuuming)
+	{
+		CaptureProgress += VacuumProgressRate * DeltaTime;
+	}
+	else
+	{
+		CaptureProgress -= DecayRate * DeltaTime;
+
+	    SetPlayerMovementEnabled(true);
+	}
+
+	CaptureProgress = FMath::Clamp(
+		CaptureProgress,
+		0.0f,
+		MaxCaptureProgress);
+
+	UE_LOG(LogTemp, Warning, TEXT("UPMSoulVacuumComponent::InitializeVariables() CaptureProgress: %f"), CaptureProgress);
+
+	UpdateTargetTransform(DeltaTime);
+
+	if (CaptureProgress >= 100.0F)
+	{
+		ShiftingCharacter->Destroy();
+
+		SetPlayerMovementEnabled(true);
+
+		ShiftingCharacter = nullptr;
+	}
+	else if (CaptureProgress <= 0.0f)
+	{
+		const float DistanceToOriginal = FVector::Dist(
+			ShiftingCharacter->GetActorLocation(),
+			OriginalMonsterLocation);
+
+		if (DistanceToOriginal <= 2.0f)
+		{
+			ShiftingCharacter->SetActorLocation(
+				OriginalMonsterLocation,
+				false);
+
+			ShiftingCharacter->SetActorScale3D(
+				OriginalMonsterScale);
+
+			SetPlayerMovementEnabled(true);
+
+			ShiftingCharacter = nullptr;
+
+			bHasOriginalTransform = false;
+
+			if (!ShiftingAIController)
+			{
+				UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::UpdateSoulVacuum() ShiftingAIController is null."));
+				return;
+			}
+
+			ShiftingAIController->AIState = EAIState::EAI_Chase;
+		}
 	}
 }
 
@@ -122,7 +215,7 @@ void UPMSoulVacuumComponent::UpdateAimRotation(float DeltaTime)
 	PlayerCharacter->SetActorRotation(NewRotation);
 }
 
-void UPMSoulVacuumComponent::VacuumOn()
+void UPMSoulVacuumComponent::UpdateVacuumTarget(float DeltaTime)
 {
 	if (!PlayerCharacter)
 	{
@@ -163,51 +256,162 @@ void UPMSoulVacuumComponent::VacuumOn()
 		return;
 	}
 
-	DrawDebugCylinder(
-		GetWorld(),
-		StartLocation,
-		EndLocation,
-		32.0f,
-		32.0f,
-		FColor::Green,
-		false,
-		2.0f);
+	// DrawDebugCylinder(
+	// 	GetWorld(),
+	// 	StartLocation,
+	// 	EndLocation,
+	// 	32.0f,
+	// 	32.0f,
+	// 	FColor::Green,
+	// 	false,
+	// 	2.0f);
 
-	if (!HitResult.Actor.IsValid())
+	APMShapeShiftingCharacter* DetectedCharacter = Cast<APMShapeShiftingCharacter>(HitResult.Actor);
+
+	if (!DetectedCharacter)
 	{
-		UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::VacuumOn() Hit actor is null."));
+		UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::UpdateVacuumTarget() DetectedCharacter is null."));
 		return;
 	}
 
-	ShiftingCharacter = Cast<APMShapeShiftingCharacter>(HitResult.Actor);
+	if (DetectedCharacter == ShiftingCharacter)
+	{
+		return;
+	}
+
+	if (ShiftingCharacter && bHasOriginalTransform)
+	{
+		return;
+	}
+
+	ShiftingCharacter = DetectedCharacter;
 
 	if (!ShiftingCharacter)
 	{
-		UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::VacuumOn() ShiftingCharacter is not a HitResult.Actor type."));
+		UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::UpdateVacuumTarget() ShiftingCharacter is null."));
 		return;
 	}
 
-	AController* ShiftingController = ShiftingCharacter->GetController();
+	OriginalMonsterLocation = ShiftingCharacter->GetActorLocation();
 
-	if(!ShiftingController)
-	{
-		UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::VacuumOn() ShiftingController is null."));
-		return;
-	}
+	OriginalMonsterScale = ShiftingCharacter->GetActorScale3D();
 
-	APMShapeShiftingAIController* ShiftingAIController = Cast<APMShapeShiftingAIController>(ShiftingController);
+	bHasOriginalTransform = true;
 
+	ShiftingAIController = Cast<APMShapeShiftingAIController>(ShiftingCharacter->GetController());
+	
 	if (!ShiftingAIController)
 	{
-		UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::VacuumOn() ShiftingController is null."));		
+		UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::UpdateVacuumTarget() ShiftingAIController is null."));
 		return;
 	}
 
-	ShiftingAIController->AIState = EAIState::EAI_Chase;
+	ShiftingAIController->StopMovement();
 
+	if(!ShiftingCharacter->GetCharacterMovement())
+	{
+		UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::UpdateVacuumTarget() CharacterMovementComponent is null."));
+		return;
+	}
+
+	ShiftingCharacter->GetCharacterMovement()->StopMovementImmediately();
+
+	SetPlayerMovementEnabled(false);
 }
 
-void UPMSoulVacuumComponent::VacuumOff()
+void UPMSoulVacuumComponent::ApplyPulse()
 {
+	if (!PlayerController || !PlayerController->bVacuuming)
+	{
+		return;
+	}
 
+	if (!ShiftingCharacter || !bHasOriginalTransform)
+	{
+		return;
+	}
+
+	CaptureProgress = FMath::Clamp(
+		CaptureProgress + PulsePower,
+		0.0f,
+		MaxCaptureProgress);
+}
+
+void UPMSoulVacuumComponent::UpdateTargetTransform(float DeltaTime)
+{
+	if (!ShiftingCharacter || !PlayerCharacter ||
+		!PlayerController || !bHasOriginalTransform || 
+		!ShiftingAIController)
+	{
+		return;
+	}
+
+	const float ProgressAlpha = FMath::Clamp(
+		CaptureProgress / MaxCaptureProgress,
+		0.0f,
+		1.0f);
+
+	FVector DesiredLocation = OriginalMonsterLocation;
+
+	FVector CurrentScale = ShiftingCharacter->GetActorScale3D();
+
+	FVector DesiredScale = OriginalMonsterScale;
+
+	if (PlayerController->bVacuuming)
+	{
+		const FVector VacuumLocation = PlayerCharacter->GetMesh()->GetSocketLocation(TEXT("spine_03"));
+
+		const FVector VacuumTarget = 
+			VacuumLocation +
+			(PlayerCharacter->GetActorForwardVector() * SuctionDistance);
+
+		DesiredLocation = FMath::Lerp(
+			OriginalMonsterLocation,
+			VacuumTarget,
+			ProgressAlpha);
+			
+		CurrentScale = ShiftingCharacter->GetActorScale3D();
+
+		const FVector TargetScale = OriginalMonsterScale * MinMonsterScale;
+
+		DesiredScale = FMath::Lerp(
+			OriginalMonsterScale,
+			TargetScale,
+			ProgressAlpha);
+	}
+
+	const FVector NewLocation = FMath::VInterpConstantTo(
+		ShiftingCharacter->GetActorLocation(),
+		DesiredLocation,
+		DeltaTime,
+		MonsterPullSpeed);
+
+	ShiftingCharacter->SetActorLocation(NewLocation);
+
+	const FVector NewScale = FMath::VInterpTo(
+		CurrentScale,
+		DesiredScale,
+		DeltaTime,
+		ScaleInterpSpeed);
+
+	ShiftingCharacter->SetActorScale3D(NewScale);
+}
+
+void UPMSoulVacuumComponent::SetPlayerMovementEnabled(bool bEnabled)
+{
+	if (!PlayerCharacter)
+	{
+		UE_LOG(LogTemp, Error, TEXT("UMPSoulVacuumComponent::SetPlayerMovementEnabled() PlayerCharacter is null."));
+		return;
+	}
+
+	UCharacterMovementComponent* MovementComponent = PlayerCharacter->GetCharacterMovement();
+
+	if (!MovementComponent)
+	{
+		UE_LOG(LogTemp, Error, TEXT("UMPSoulVacuumComponent::SetPlayerMovementEnabled() MovementComponent is null."));
+	}
+
+	MovementComponent->SetMovementMode(
+		bEnabled? MOVE_Walking : MOVE_None);
 }

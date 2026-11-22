@@ -43,6 +43,9 @@ public:
 	// Interaction
 	void Interact();
 
+	void PulsePressed();
+
+	void PulseReleased();
 
 public:
 
@@ -62,4 +65,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character States")
 	bool bVacuuming = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character States")
+	bool bApplyPulse = false;
 };
