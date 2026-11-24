@@ -9,6 +9,7 @@
 #include "Components/Button.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "Kismet/GameplayStatics.h"
 
 void UPMMainMenuWidget::NativeConstruct()
 {
@@ -36,6 +37,8 @@ void UPMMainMenuWidget::NativeConstruct()
 void UPMMainMenuWidget::OnNewGamePressed()
 {
     UE_LOG(LogTemp, Warning, TEXT("UPMMainMenuWidget::OnNewGamePressed() New Game."));
+
+    UGameplayStatics::OpenLevel(GetWorld(), FName("L_DebugRoom"));
 }
 
 void UPMMainMenuWidget::OnHowToPlayPressed()

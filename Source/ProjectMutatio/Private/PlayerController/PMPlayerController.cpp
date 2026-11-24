@@ -7,10 +7,22 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "UI/PMMainMenuWidget.h"
 
 APMPlayerController::APMPlayerController()
 {
     UE_LOG(LogTemp, Warning, TEXT("APMPlayerController::APMPlayerController() PlayerController initialized successfully."));
+
+    static ConstructorHelpers::FClassFinder<UUserWidget>
+        MenuWidgetAsset(TEXT("/Game/UI/Main_Menu/BPW_MainMenu"));
+
+    if (!MenuWidgetAsset.Succeeded())
+    {
+        UE_LOG(LogTemp, Error, TEXT("APMPlayerController::APMPlayerController() MenuWidgetAsset is null."));
+        return; 
+    }
+
+    MenuWidgetClass = MenuWidgetAsset.Class;
 }
 
 void APMPlayerController::BeginPlay()
@@ -18,6 +30,8 @@ void APMPlayerController::BeginPlay()
     Super::BeginPlay();
 
     InitializeVariables();
+
+    UIManagement();
 }
 
 void APMPlayerController::Tick(float DeltaTime)
@@ -250,4 +264,26 @@ void APMPlayerController::PulsePressed()
 void APMPlayerController::PulseReleased()
 {
     bApplyPulse = false;
+}
+
+void APMPlayerController::UIManagement()
+{
+    FString CurrentLevel = GetWorld()->GetMapName();
+
+    CurrentLevel.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
+
+    UUserWidget* NewWidget;
+
+    if (CurrentLevel == TEXT("L_MainMenu"))
+    {
+        if (!MenuWidgetClass)
+        {
+            UE_LOG(LogTemp, Error, TEXT("APMPlayerController::UIManagement() MenuWidgetClass is null."));
+            return;
+        }
+
+        NewWidget = CreateWidget<UUserWidget>(this, MenuWidgetClass);
+
+        NewWidget->AddToViewport(99);
+    }
 }

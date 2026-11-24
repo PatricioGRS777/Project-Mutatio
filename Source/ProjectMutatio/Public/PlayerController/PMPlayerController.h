@@ -28,6 +28,8 @@ public:
 
 	void InitializeVariables();
 
+	void UIManagement();
+
 	// Movement functions for the player character
 	void MoveForward(float Value);
 	void MoveRight(float Value);
@@ -68,4 +70,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character States")
 	bool bApplyPulse = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<class UPMMainMenuWidget> MenuWidgetClass;
 };

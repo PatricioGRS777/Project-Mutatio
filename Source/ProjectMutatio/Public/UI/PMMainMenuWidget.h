@@ -18,12 +18,16 @@ public:
 
 	virtual void NativeConstruct();
 
+	UFUNCTION()
 	void OnNewGamePressed();
 
+	UFUNCTION()
 	void OnHowToPlayPressed();
 
+	UFUNCTION()
 	void OnCreditsPressed();
 
+	UFUNCTION()
 	void OnExitGamePressed();
 
 public:
