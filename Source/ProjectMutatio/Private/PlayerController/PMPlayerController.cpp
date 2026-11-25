@@ -7,14 +7,15 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "UI/PMMainMenuWidget.h"
+#include "UI/Menu/PMMainMenuWidget.h"
+#include "UI/Gameplay/PMHUDWidget.h"
 
 APMPlayerController::APMPlayerController()
 {
     UE_LOG(LogTemp, Warning, TEXT("APMPlayerController::APMPlayerController() PlayerController initialized successfully."));
 
     static ConstructorHelpers::FClassFinder<UUserWidget>
-        MenuWidgetAsset(TEXT("/Game/UI/Main_Menu/BPW_MainMenu"));
+        MenuWidgetAsset(TEXT("/Game/UI/Main_Menu/WBP_MainMenu"));
 
     if (!MenuWidgetAsset.Succeeded())
     {
@@ -23,6 +24,17 @@ APMPlayerController::APMPlayerController()
     }
 
     MenuWidgetClass = MenuWidgetAsset.Class;
+
+    static ConstructorHelpers::FClassFinder<UUserWidget>
+        HUDWidgetAsset(TEXT(""));
+
+    if (!HUDWidgetAsset.Succeeded())
+    {
+        UE_LOG(LogTemp, Error, TEXT("APMPlayerController::APMPlayerController() HUDWidgetAsset is null."));
+        return;
+    }
+
+    HUDWidgetClass = HUDWidgetAsset.Class;
 }
 
 void APMPlayerController::BeginPlay()
@@ -283,6 +295,18 @@ void APMPlayerController::UIManagement()
         }
 
         NewWidget = CreateWidget<UUserWidget>(this, MenuWidgetClass);
+
+        NewWidget->AddToViewport(99);
+    }
+    else if (CurrentLevel == TEXT("L_DebugRoom"))
+    {
+        if (!HUDWidgetClass)
+        {
+            UE_LOG(LogTemp, Error, TEXT("APMPlayerController::UIManagement() MenuWidgetClass is null."));
+            return;
+        }
+
+        NewWidget = CreateWidget<UUserWidget>(this, HUDWidgetClass);
 
         NewWidget->AddToViewport(99);
     }

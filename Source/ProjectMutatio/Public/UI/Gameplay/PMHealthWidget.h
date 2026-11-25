@@ -21,15 +21,18 @@ public:
 public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "UI|Progress Bar")
+	class UHorizontalBox* HealthHorizontalBox;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "UI|Progress Bar")
 	class UProgressBar* HealthBar;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "UI|Images")
 	class UImage* CharacterImage;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "UI|Images")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI|Images")
 	class UImage* EmptyHealthImage;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "UI|Images")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI|Images")
 	class UImage* FullHealthImage;
 	
 };

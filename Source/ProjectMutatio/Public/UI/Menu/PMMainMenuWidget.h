@@ -27,16 +27,13 @@ public:
 	UFUNCTION()
 	void OnCreditsPressed();
 
-	UFUNCTION()
-	void OnExitGamePressed();
-
 public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Canvas Panel")
 	class UCanvasPanel* MenuCanvasPanel;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Size Box")
-	class USizeBox* MenuSizeBox;
+	class USizeBox* TitleSizeBox;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Vertical Box")
 	class UVerticalBox* MenuVerticalBox;
@@ -49,9 +46,6 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Buttons")
 	class UButton* CreditsButton;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Buttons")
-	class UButton* ExitGameButton;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Overlay")
 	class UOverlay* ToFullScreenOverlay;
@@ -72,10 +66,6 @@ public:
 	class UTextBlock* CreditsText;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Texts")
-	class UTextBlock* ExitGameText;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Texts")
-	class UTextBlock* ToFullScreenText;
-
+	class UTextBlock* ToFullscreenText;
 
 };

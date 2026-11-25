@@ -13,11 +13,11 @@
 
 void UPMMainMenuWidget::NativeConstruct()
 {
-    if (!MenuCanvasPanel || !MenuSizeBox || !MenuVerticalBox ||
+    if (!MenuCanvasPanel || !TitleSizeBox || !MenuVerticalBox ||
         !NewGameButton || !HowToPlayButton || !CreditsButton ||
-        !ExitGameButton || !TitleLogoImage || !ToFullScreenImage ||
         !NewGameText || !HowToPlayText || !CreditsText ||
-        !ExitGameText)
+        !ToFullscreenText || !TitleLogoImage || !ToFullScreenImage ||
+        !NewGameText || !HowToPlayText || !CreditsText)
     {
         UE_LOG(LogTemp, Error, TEXT("UPMMainMenuWidget::NativeConstruct() The components are not valid. Make sure to add the components inside the widget."));
         return;
@@ -26,12 +26,11 @@ void UPMMainMenuWidget::NativeConstruct()
     NewGameButton->OnClicked.AddDynamic(this, &UPMMainMenuWidget::OnNewGamePressed);
     HowToPlayButton->OnClicked.AddDynamic(this, &UPMMainMenuWidget::OnHowToPlayPressed);
     CreditsButton->OnClicked.AddDynamic(this, &UPMMainMenuWidget::OnCreditsPressed);
-    ExitGameButton->OnClicked.AddDynamic(this, &UPMMainMenuWidget::OnExitGamePressed);
 
     NewGameText->SetText(FText::FromString(TEXT("New Game")));
     HowToPlayText->SetText(FText::FromString(TEXT("How to Play")));
     CreditsText->SetText(FText::FromString(TEXT("Credits")));
-    ExitGameText->SetText(FText::FromString(TEXT("Exit Game")));
+    ToFullscreenText->SetText(FText::FromString(TEXT("To full screen")));
 }
 
 void UPMMainMenuWidget::OnNewGamePressed()
@@ -49,9 +48,4 @@ void UPMMainMenuWidget::OnHowToPlayPressed()
 void UPMMainMenuWidget::OnCreditsPressed()
 {
     UE_LOG(LogTemp, Warning, TEXT("UPMMainMenuWidget::OnCreditsPressed() Credits."));
-}
-
-void UPMMainMenuWidget::OnExitGamePressed()
-{
-    UE_LOG(LogTemp, Warning, TEXT("UPMMainMenuWidget::OnExitGamePressed() Exit Game."));
 }

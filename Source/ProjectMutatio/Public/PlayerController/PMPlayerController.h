@@ -73,4 +73,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TSubclassOf<class UPMMainMenuWidget> MenuWidgetClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<class UPMHUDWidget> HUDWidgetClass;	
 };
