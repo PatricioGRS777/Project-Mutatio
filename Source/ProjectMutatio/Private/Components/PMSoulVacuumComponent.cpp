@@ -2,13 +2,16 @@
 
 
 #include "PMSoulVacuumComponent.h"
-#include "Characters/Humans/PlayerCharacter/PMPlayerCharacter.h"
-#include "Characters/Monsters/ShapeShifting/PMShapeShiftingCharacter.h"
 #include "PlayerController/PMPlayerController.h"
+#include "Characters/Humans/PlayerCharacter/PMPlayerCharacter.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Characters/Monsters/ShapeShifting/PMShapeShiftingCharacter.h"
 #include "Controllers/Monsters/ShapeShifting/PMShapeShiftingAIController.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "DrawDebugHelpers.h"
-#include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/GameModeBase.h"
+#include "Core/PMGameMode.h"
 
 // Sets default values for this component's properties
 UPMSoulVacuumComponent::UPMSoulVacuumComponent()
@@ -137,6 +140,26 @@ void UPMSoulVacuumComponent::UpdateSoulVacuum(float DeltaTime)
 		SetPlayerMovementEnabled(true);
 
 		ShiftingCharacter = nullptr;
+
+		AGameModeBase* GameMode = UGameplayStatics::GetGameMode(GetWorld());
+
+		if (!GameMode)
+		{
+			UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::UpdateSoulVacuum() GameMode is null."))
+			return;
+		}
+
+		APMGameMode* PMGameMode = Cast<APMGameMode>(GameMode);
+
+		if (!PMGameMode)
+		{
+			UE_LOG(LogTemp, Error, TEXT("UPMSoulVacuumComponent::UpdateSoulVacuum() PMGameMode is null."))
+			return;
+		}
+
+		PMGameMode->CapturedMonstersCount++;
+
+		PMGameMode->Victory();
 	}
 	else if (CaptureProgress <= 0.0f)
 	{

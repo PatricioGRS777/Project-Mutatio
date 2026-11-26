@@ -6,6 +6,9 @@
 #include "Characters/Humans/Guards/PMGuardCharacter.h"
 #include "Characters/Humans/PlayerCharacter/PMPlayerCharacter.h"
 #include "Controllers/PMAIState.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/GameModeBase.h"
+#include "Core/PMGameMode.h"
 
 APMHumanAIController::APMHumanAIController()
 {
@@ -222,6 +225,22 @@ void APMHumanAIController::Offensive()
     SetState(EAIState::EAI_Offensive);
 
     UE_LOG(LogTemp, Warning, TEXT("APMHumanAIController::Attack() In an offensive position."));
+
+    AGameModeBase* GameMode = UGameplayStatics::GetGameMode(GetWorld());
+
+    if (!GameMode)
+    {
+        return;
+    }
+
+    APMGameMode* PMGameMode = Cast<APMGameMode>(GameMode);
+
+    if (!PMGameMode)
+    {
+        return;
+    }
+
+    PMGameMode->GameOver();
     
 }
 
