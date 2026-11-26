@@ -18,6 +18,12 @@ public:
 
 	virtual void NativeConstruct() override;
 
+	virtual void NativeTick(const FGeometry& Geometry, float DeltaTime) override;
+
+	void InitializeVariables();
+
+	void UpdateHealthBar();
+
 public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "UI|Progress Bar")
@@ -34,5 +40,16 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI|Images")
 	class UImage* FullHealthImage;
-	
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PlayerCharacter")
+	class APMPlayerCharacter* PlayerCharacter;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PlayerCharacter")
+	class UPMHealthComponent* HealthComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Health")
+	float CurrentHealth;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Health")
+	float MaxHealth;
 };

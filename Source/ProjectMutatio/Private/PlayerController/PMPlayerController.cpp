@@ -26,7 +26,7 @@ APMPlayerController::APMPlayerController()
     MenuWidgetClass = MenuWidgetAsset.Class;
 
     static ConstructorHelpers::FClassFinder<UUserWidget>
-        HUDWidgetAsset(TEXT(""));
+        HUDWidgetAsset(TEXT("/Game/UI/Gameplay/WBP_HUD"));
 
     if (!HUDWidgetAsset.Succeeded())
     {
@@ -43,7 +43,13 @@ void APMPlayerController::BeginPlay()
 
     InitializeVariables();
 
-    UIManagement();
+}
+
+void APMPlayerController::OnPossess(APawn* InPawn)
+{
+    Super::OnPossess(InPawn);
+
+    UIManagement(InPawn);
 }
 
 void APMPlayerController::Tick(float DeltaTime)
@@ -278,7 +284,7 @@ void APMPlayerController::PulseReleased()
     bApplyPulse = false;
 }
 
-void APMPlayerController::UIManagement()
+void APMPlayerController::UIManagement(APawn* PossessedPawn)
 {
     FString CurrentLevel = GetWorld()->GetMapName();
 
@@ -306,8 +312,10 @@ void APMPlayerController::UIManagement()
             return;
         }
 
-        NewWidget = CreateWidget<UUserWidget>(this, HUDWidgetClass);
+        UPMHUDWidget* HUDWidget = CreateWidget<UPMHUDWidget>(this, HUDWidgetClass);
 
-        NewWidget->AddToViewport(99);
+        HUDWidget->InitializeVariables(PossessedPawn);
+
+        HUDWidget->AddToViewport(99);
     }
 }

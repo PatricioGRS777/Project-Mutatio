@@ -22,13 +22,15 @@ public:
 
 	virtual void BeginPlay() override;
 
+	virtual void OnPossess(APawn* InPawn) override;
+
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupInputComponent() override;
 
 	void InitializeVariables();
 
-	void UIManagement();
+	void UIManagement(APawn* PossessedPawn);
 
 	// Movement functions for the player character
 	void MoveForward(float Value);

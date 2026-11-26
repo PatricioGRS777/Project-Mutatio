@@ -17,13 +17,25 @@ class PROJECTMUTATIO_API UPMHUDWidget : public UUserWidget
 public:
 
 	virtual void NativeConstruct() override;
+	
+	void InitializeVariables(APawn* InPawn);
 
 public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "UI|Overlay")
 	class UCanvasPanel* HUDCanvasPanel;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "UI|Vertical Box")
-	class UVerticalBox* HUDVerticalBox;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "UI")
+	class UPMHealthWidget* WBP_HealthBar;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "UI")
+	class UPMCapturedMonstersWidget* WBP_CapturedMonsters;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	class APMPlayerCharacter* PlayerCharacter;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	class UPMHealthComponent* HealthComponent;
+
 
 };
