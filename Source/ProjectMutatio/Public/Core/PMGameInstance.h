@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "Data/PMGameState.h"
 #include "PMGameInstance.generated.h"
 
 /**
@@ -19,5 +20,5 @@ public:
 
 	// Called to initialize the game instance for standalone instances of the game
 	virtual void Init() override;
-	
+
 };
