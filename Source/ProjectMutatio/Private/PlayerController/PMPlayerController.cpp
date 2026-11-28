@@ -7,10 +7,34 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "UI/Menu/PMMainMenuWidget.h"
+#include "UI/Gameplay/PMHUDWidget.h"
 
 APMPlayerController::APMPlayerController()
 {
     UE_LOG(LogTemp, Warning, TEXT("APMPlayerController::APMPlayerController() PlayerController initialized successfully."));
+
+    static ConstructorHelpers::FClassFinder<UUserWidget>
+        MenuWidgetAsset(TEXT("/Game/UI/Menu/WBP_MainMenu"));
+
+    if (!MenuWidgetAsset.Succeeded())
+    {
+        UE_LOG(LogTemp, Error, TEXT("APMPlayerController::APMPlayerController() MenuWidgetAsset is null."));
+        return; 
+    }
+
+    MenuWidgetClass = MenuWidgetAsset.Class;
+
+    static ConstructorHelpers::FClassFinder<UUserWidget>
+        HUDWidgetAsset(TEXT("/Game/UI/Gameplay/WBP_HUD"));
+
+    if (!HUDWidgetAsset.Succeeded())
+    {
+        UE_LOG(LogTemp, Error, TEXT("APMPlayerController::APMPlayerController() HUDWidgetAsset is null."));
+        return;
+    }
+
+    HUDWidgetClass = HUDWidgetAsset.Class;
 }
 
 void APMPlayerController::BeginPlay()
@@ -18,6 +42,14 @@ void APMPlayerController::BeginPlay()
     Super::BeginPlay();
 
     InitializeVariables();
+
+}
+
+void APMPlayerController::OnPossess(APawn* InPawn)
+{
+    Super::OnPossess(InPawn);
+
+    UIManagement(InPawn);
 }
 
 void APMPlayerController::Tick(float DeltaTime)
@@ -250,4 +282,40 @@ void APMPlayerController::PulsePressed()
 void APMPlayerController::PulseReleased()
 {
     bApplyPulse = false;
+}
+
+void APMPlayerController::UIManagement(APawn* PossessedPawn)
+{
+    FString CurrentLevel = GetWorld()->GetMapName();
+
+    CurrentLevel.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
+
+    UUserWidget* NewWidget;
+
+    if (CurrentLevel == TEXT("L_MainMenu"))
+    {
+        if (!MenuWidgetClass)
+        {
+            UE_LOG(LogTemp, Error, TEXT("APMPlayerController::UIManagement() MenuWidgetClass is null."));
+            return;
+        }
+
+        NewWidget = CreateWidget<UUserWidget>(this, MenuWidgetClass);
+
+        NewWidget->AddToViewport(99);
+    }
+    else if (CurrentLevel == TEXT("L_DebugRoom"))
+    {
+        if (!HUDWidgetClass)
+        {
+            UE_LOG(LogTemp, Error, TEXT("APMPlayerController::UIManagement() MenuWidgetClass is null."));
+            return;
+        }
+
+        UPMHUDWidget* HUDWidget = CreateWidget<UPMHUDWidget>(this, HUDWidgetClass);
+
+        HUDWidget->InitializeVariables(PossessedPawn);
+
+        HUDWidget->AddToViewport(99);
+    }
 }

@@ -22,11 +22,15 @@ public:
 
 	virtual void BeginPlay() override;
 
+	virtual void OnPossess(APawn* InPawn) override;
+
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupInputComponent() override;
 
 	void InitializeVariables();
+
+	void UIManagement(APawn* PossessedPawn);
 
 	// Movement functions for the player character
 	void MoveForward(float Value);
@@ -68,4 +72,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character States")
 	bool bApplyPulse = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<class UPMMainMenuWidget> MenuWidgetClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<class UPMHUDWidget> HUDWidgetClass;	
 };

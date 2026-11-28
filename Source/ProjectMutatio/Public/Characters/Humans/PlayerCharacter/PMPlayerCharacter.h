@@ -24,6 +24,12 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	void InitializeVariables();
+
+	void SetCaptureBarVisibility(bool bHide);
+
+	void UpdateCaptureBarPosition(float DeltaTime);
+
 	UFUNCTION()
 	void EmitAINoise(
 		float Loudness,
@@ -39,6 +45,9 @@ public:
 
 public:
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Controller")
+	class APMPlayerController* PlayerController;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	class UPMSoulVacuumComponent* SoulVacuumComp;
 
@@ -50,5 +59,12 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	class UPMInteractionComponent* InteractionComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI|Widget Component")
+	class UWidgetComponent* VacuumWidgetComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<class UPMCaptureBarWidget> CaptureBarWidgetClass;
+
 	
 };

@@ -21,7 +21,8 @@ public:
     UFUNCTION(BlueprintPure, Category = "Health")
     float GetMaxHealth() const { return MaxHealth; }
 
-protected:
+public:
+
     virtual void BeginPlay() override;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Health", meta = (ClampMin = "0.0"))
