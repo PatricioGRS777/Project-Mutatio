@@ -15,7 +15,7 @@ APMPlayerController::APMPlayerController()
     UE_LOG(LogTemp, Warning, TEXT("APMPlayerController::APMPlayerController() PlayerController initialized successfully."));
 
     static ConstructorHelpers::FClassFinder<UUserWidget>
-        MenuWidgetAsset(TEXT("/Game/UI/Main_Menu/WBP_MainMenu"));
+        MenuWidgetAsset(TEXT("/Game/UI/Menu/WBP_MainMenu"));
 
     if (!MenuWidgetAsset.Succeeded())
     {

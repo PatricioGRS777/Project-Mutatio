@@ -8,6 +8,8 @@
 #include "PMSoulVacuumComponent.generated.h"
 
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMonstersCountChanged);
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECTMUTATIO_API UPMSoulVacuumComponent : public UActorComponent
 {
@@ -100,4 +102,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Soul Vacuum|Transformation")
 	float ScaleInterpSpeed = 8.0f;
 
+	UPROPERTY(VisibleAnywhere, Category = "Monsters")
+	FOnMonstersCountChanged OnMonstersCountChanged;
 };

@@ -22,6 +22,8 @@ public:
 
 	void InitializeVariables();
 
+	void SetProgressBar(class UProgressBar* NewProgressBar, class UTexture2D* EmptyTexture, class UTexture2D* FillTexture);
+
 	void UpdateHealthBar();
 
 public:
@@ -36,10 +38,10 @@ public:
 	class UImage* CharacterImage;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI|Images")
-	class UImage* EmptyHealthImage;
+	class UTexture2D* BackgroundTexture;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI|Images")
-	class UImage* FullHealthImage;
+	class UTexture2D* FullTexture;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PlayerCharacter")
 	class APMPlayerCharacter* PlayerCharacter;

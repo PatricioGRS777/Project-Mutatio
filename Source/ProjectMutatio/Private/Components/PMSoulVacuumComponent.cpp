@@ -121,6 +121,8 @@ void UPMSoulVacuumComponent::UpdateSoulVacuum(float DeltaTime)
 	{
 		CaptureProgress -= DecayRate * DeltaTime;
 
+		PlayerCharacter->SetCaptureBarVisibility(false);
+
 	    SetPlayerMovementEnabled(true);
 	}
 
@@ -136,6 +138,8 @@ void UPMSoulVacuumComponent::UpdateSoulVacuum(float DeltaTime)
 	if (CaptureProgress >= 100.0F)
 	{
 		ShiftingCharacter->Destroy();
+
+		PlayerCharacter->SetCaptureBarVisibility(false);
 
 		SetPlayerMovementEnabled(true);
 
@@ -159,6 +163,8 @@ void UPMSoulVacuumComponent::UpdateSoulVacuum(float DeltaTime)
 
 		PMGameMode->CapturedMonstersCount++;
 
+		OnMonstersCountChanged.Broadcast();
+
 		PMGameMode->Victory();
 	}
 	else if (CaptureProgress <= 0.0f)
@@ -175,6 +181,8 @@ void UPMSoulVacuumComponent::UpdateSoulVacuum(float DeltaTime)
 
 			ShiftingCharacter->SetActorScale3D(
 				OriginalMonsterScale);
+			
+			PlayerCharacter->SetCaptureBarVisibility(false);
 
 			SetPlayerMovementEnabled(true);
 
@@ -338,6 +346,8 @@ void UPMSoulVacuumComponent::UpdateVacuumTarget(float DeltaTime)
 	}
 
 	ShiftingCharacter->GetCharacterMovement()->StopMovementImmediately();
+
+	PlayerCharacter->SetCaptureBarVisibility(true);
 
 	SetPlayerMovementEnabled(false);
 }

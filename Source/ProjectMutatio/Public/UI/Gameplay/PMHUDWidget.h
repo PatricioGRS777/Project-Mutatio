@@ -22,13 +22,13 @@ public:
 
 public:
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "UI|Overlay")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "UI|Overlay")
 	class UCanvasPanel* HUDCanvasPanel;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "UI")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "UI")
 	class UPMHealthWidget* WBP_HealthBar;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "UI")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "UI")
 	class UPMCapturedMonstersWidget* WBP_CapturedMonsters;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")

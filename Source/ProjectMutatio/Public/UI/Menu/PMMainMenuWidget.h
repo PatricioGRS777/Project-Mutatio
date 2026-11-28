@@ -29,43 +29,43 @@ public:
 
 public:
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Canvas Panel")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "Canvas Panel")
 	class UCanvasPanel* MenuCanvasPanel;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Size Box")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "Size Box")
 	class USizeBox* TitleSizeBox;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Vertical Box")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "Vertical Box")
 	class UVerticalBox* MenuVerticalBox;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Buttons")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "Buttons")
 	class UButton* NewGameButton;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Buttons")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "Buttons")
 	class UButton* HowToPlayButton;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Buttons")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "Buttons")
 	class UButton* CreditsButton;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Overlay")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "Overlay")
 	class UOverlay* ToFullScreenOverlay;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Images")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "Images")
 	class UImage* TitleLogoImage;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Images")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "Images")
 	class UImage* ToFullScreenImage;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Texts")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "Texts")
 	class UTextBlock* NewGameText;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Texts")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "Texts")
 	class UTextBlock* HowToPlayText;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Texts")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "Texts")
 	class UTextBlock* CreditsText;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget = true), Category = "Texts")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = "Texts")
 	class UTextBlock* ToFullscreenText;
 
 };
